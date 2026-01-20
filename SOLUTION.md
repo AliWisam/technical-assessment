@@ -10,13 +10,13 @@ Please provide a brief explanation of your approach, design decisions, and any a
 
 <!-- Describe your approach to the TokenVault contract -->
 
-## Task 2: Backend API
+## Task 2: Backend API Configuration
 
-<!-- Describe your backend architecture and API design -->
+<!-- Describe your backend configuration and integration approach -->
 
-## Task 3: React Native Frontend
+## Task 3: Next.js Frontend
 
-<!-- Describe your mobile app architecture and UI/UX decisions -->
+<!-- Describe your frontend architecture and UI/UX decisions -->
 
 ## Design Decisions
 
@@ -43,12 +43,15 @@ Please provide a brief explanation of your approach, design decisions, and any a
 # Your instructions here
 ```
 
-### Backend API
+### Backend API Configuration
 ```bash
-# Your instructions here
+# Your configuration instructions here
+# - Environment variables used
+# - Contract ABI updates
+# - Any customizations made
 ```
 
-### React Native App
+### Next.js Frontend
 ```bash
 # Your instructions here
 ```

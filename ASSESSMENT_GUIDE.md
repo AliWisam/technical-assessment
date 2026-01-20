@@ -17,15 +17,15 @@
    - Deploy to testnet or local node
 
 4. **Move to Task 2:**
-   - Create `backend/` directory
-   - Build your Node.js API with Express
-   - Integrate with your deployed contract
+   - The `backend/` directory contains a prebuilt Node.js API
+   - Configure environment variables (contract address, RPC URL)
+   - Update contract ABI in `src/config/blockchain.ts`
    - Test API endpoints
 
 5. **Complete Task 3:**
-   - The `mobile/` directory contains a prebuilt React Native app
-   - Configure API URL and contract address
-   - Set up wallet connection (WalletConnect/MetaMask)
+   - The `frontend/` directory contains a prebuilt Next.js app
+   - Configure API URL and contract address in `.env.local`
+   - Set up wallet connection (MetaMask browser extension)
    - Test the complete flow (frontend → backend → blockchain)
 
 ## Project Structure
@@ -34,8 +34,11 @@
 .
 ├── contracts/          # Your smart contracts (Task 1)
 ├── scripts/           # Deployment scripts (Task 1)
-├── backend/           # Node.js API (Task 2) - create this
-├── mobile/            # Prebuilt React Native app (Task 3)
+├── backend/           # Prebuilt Node.js API (Task 2)
+│   ├── src/
+│   ├── package.json
+│   └── README.md
+├── frontend/          # Prebuilt Next.js app (Task 3)
 │   ├── src/
 │   ├── package.json
 │   └── README.md
@@ -56,11 +59,11 @@
 - [ethers.js Documentation](https://docs.ethers.org/)
 - [Node.js Best Practices](https://github.com/goldbergyoni/nodebestpractices)
 
-### React Native
-- [React Native Documentation](https://reactnative.dev/)
-- [Expo Documentation](https://docs.expo.dev/)
-- [React Navigation](https://reactnavigation.org/)
-- [WalletConnect Documentation](https://docs.walletconnect.com/)
+### Next.js & Web3
+- [Next.js Documentation](https://nextjs.org/docs)
+- [React Documentation](https://react.dev/)
+- [MetaMask Documentation](https://docs.metamask.io/)
+- [ethers.js Documentation](https://docs.ethers.org/)
 
 ### Security
 - [Smart Contract Security Best Practices](https://consensys.github.io/smart-contract-best-practices/)
@@ -84,26 +87,33 @@
   - Run `npx hardhat compile` to compile contracts
 
 ### Backend
+- **"Contract not initialized"**
+  - Ensure `CONTRACT_ADDRESS` is set in `.env` file
+  - Verify contract address format (42 characters, starts with 0x)
+  - Check that contract is deployed to the network
+
 - **"Cannot connect to blockchain"**
   - Check your RPC URL in `.env` file
-  - Ensure contract address is correct
-  - Verify network ID matches
+  - Verify network connectivity
+  - For local development, ensure Hardhat node is running
 
 - **"API not responding"**
   - Check if server is running on correct port
   - Verify CORS settings if needed
   - Check error logs
+  - Ensure contract ABI matches your deployed contract
 
-### React Native
+### Frontend (Next.js)
 - **"Wallet not connecting"**
-  - Ensure WalletConnect or MetaMask SDK is properly configured
-  - Check network configuration
-  - Verify deep linking setup (for WalletConnect)
+  - Ensure MetaMask browser extension is installed
+  - Check that MetaMask is unlocked
+  - Verify network configuration matches your blockchain
 
 - **"Cannot connect to backend"**
-  - Check backend URL in your API service
+  - Check backend URL in `.env.local` or `src/config/api.ts`
   - Ensure backend is running
-  - Check network permissions on device/emulator
+  - Check CORS settings on backend
+  - Verify API URL format
 
 ## Evaluation Focus
 

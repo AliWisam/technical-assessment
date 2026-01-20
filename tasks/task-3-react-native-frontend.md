@@ -2,14 +2,14 @@
 
 ## Objective
 
-Connect the prebuilt React Native frontend application to your backend API (Task 2) and configure it to interact with the TokenVault contract.
+Connect the prebuilt Next.js frontend application to your backend API (Task 2) and configure it to interact with the TokenVault contract.
 
 ## Overview
 
-A React Native mobile application is already provided in the `mobile/` directory. Your task is to:
+A Next.js web application is already provided in the `frontend/` directory. Your task is to:
 
 1. **Configure the frontend** to connect to your backend API
-2. **Set up wallet integration** (WalletConnect or MetaMask Mobile)
+2. **Set up wallet integration** (MetaMask browser extension)
 3. **Test the complete flow** from frontend → backend → blockchain
 
 ## Prebuilt Application Features
@@ -17,16 +17,16 @@ A React Native mobile application is already provided in the `mobile/` directory
 The prebuilt app includes:
 
 1. **Wallet Connection UI**
-   - WalletConnect integration setup
-   - MetaMask Mobile SDK support
+   - MetaMask integration
    - Connection status display
    - Wallet address display
+   - Auto-reconnect on page load
 
 2. **Vault Operations UI**
    - Balance display components
    - Deposit/Withdraw forms
    - Transaction status indicators
-   - Transaction history list
+   - Responsive design
 
 3. **API Service Layer**
    - Pre-configured API client
@@ -34,27 +34,27 @@ The prebuilt app includes:
    - Error handling utilities
    - Loading state management
 
-4. **Navigation & State Management**
-   - React Navigation setup
-   - Context API for global state
-   - Screen components ready to use
+4. **State Management**
+   - React Context API for global state
+   - Wallet context for connection management
+   - Vault context for operations
 
 ## Requirements
 
 ### Your Tasks
 
 1. **Backend API Configuration**
-   - Update API base URL in `mobile/src/config/api.js`
+   - Update API base URL in `frontend/src/config/api.ts` or `.env.local`
    - Ensure all backend endpoints match the API service calls
    - Test API connectivity
 
 2. **Wallet Integration**
-   - Configure WalletConnect Project ID (or MetaMask SDK)
-   - Set up network configuration
+   - MetaMask is already integrated
    - Test wallet connection flow
+   - Verify network configuration matches your blockchain
 
 3. **Environment Setup**
-   - Configure environment variables (`.env` file)
+   - Configure environment variables (`.env.local` file)
    - Set up contract addresses
    - Configure network settings
 
@@ -67,45 +67,53 @@ The prebuilt app includes:
 ### Technical Requirements
 
 - Connect the prebuilt frontend to your backend API from Task 2
-- Configure wallet connection (WalletConnect or MetaMask Mobile)
+- Ensure MetaMask wallet connection works
 - Ensure all API endpoints work correctly
 - Test the complete user flow
 
 ### Deliverables
 
-1. Updated configuration files (API URL, wallet settings, etc.)
+1. Updated configuration files (API URL, contract address, etc.)
 2. Working frontend connected to your backend
 3. Brief documentation of any configuration changes made
-4. Screenshots or screen recordings showing the working app (optional but appreciated)
+4. Screenshots showing the working app (optional but appreciated)
 
 ### Example User Flow
 
 ```
-1. User opens the app
+1. User opens the app in browser
 2. App shows "Connect Wallet" button
-3. User taps button → WalletConnect/MetaMask opens
+3. User clicks button → MetaMask popup opens
 4. User approves connection
 5. App shows: "Connected: 0x1234..."
 6. App fetches user's vault balance from backend API
 7. User enters token address and amount
-8. User taps "Deposit" → Transaction details shown
-9. User confirms in wallet → Transaction sent
+8. User clicks "Deposit" → MetaMask transaction popup
+9. User confirms transaction → Transaction sent
 10. App shows: "Transaction pending..." → "Confirmed!"
 ```
 
 ### Project Structure
 
 ```
-mobile/
+frontend/
 ├── src/
-│   ├── screens/
-│   ├── components/
+│   ├── app/              # Next.js app directory
+│   │   ├── page.tsx      # Home page
+│   │   ├── vault/        # Vault operations page
+│   │   └── layout.tsx    # Root layout
+│   ├── config/
+│   │   └── api.ts        # API configuration
+│   ├── context/
+│   │   ├── WalletContext.tsx
+│   │   └── VaultContext.tsx
 │   ├── services/
-│   ├── navigation/
-│   ├── context/ or store/
+│   │   └── api.ts        # API service functions
 │   └── utils/
-├── App.tsx or App.js
+│       ├── constants.ts
+│       └── helpers.ts
 ├── package.json
+├── next.config.js
 └── README.md
 ```
 
@@ -124,12 +132,13 @@ mobile/
 - Add additional features beyond the basic flow
 - Optimize API calls or add caching
 - Improve error messages or user feedback
+- Add transaction history display
 
 ## Notes
 
-- The frontend app is located in the `mobile/` directory
-- Follow the setup instructions in `mobile/README.md`
-- You can use Expo or run it with React Native CLI
-- Test on iOS simulator, Android emulator, or physical device
+- The frontend app is located in the `frontend/` directory
+- Follow the setup instructions in `frontend/README.md`
+- Requires MetaMask browser extension
+- Test in a modern browser (Chrome, Firefox, Edge)
 - Focus on configuration and integration, not building from scratch
 - If you encounter issues, document them and explain your approach

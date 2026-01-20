@@ -1,7 +1,22 @@
-import React, { createContext, useState, useContext } from 'react';
-import { vaultService } from '../services/api';
+'use client';
 
-const VaultContext = createContext();
+import React, { createContext, useState, useContext } from 'react';
+import { vaultService } from '@/services/api';
+
+interface VaultContextType {
+  balance: any;
+  totalDeposits: any;
+  status: any;
+  loading: boolean;
+  error: string | null;
+  fetchBalance: (userAddress: string, tokenAddress: string) => Promise<void>;
+  fetchTotalDeposits: (tokenAddress: string) => Promise<void>;
+  fetchStatus: () => Promise<void>;
+  estimateDeposit: (tokenAddress: string, amount: string) => Promise<any>;
+  estimateWithdraw: (tokenAddress: string, amount: string) => Promise<any>;
+}
+
+const VaultContext = createContext<VaultContextType | undefined>(undefined);
 
 export const useVault = () => {
   const context = useContext(VaultContext);
@@ -11,14 +26,14 @@ export const useVault = () => {
   return context;
 };
 
-export const VaultProvider = ({ children }) => {
-  const [balance, setBalance] = useState(null);
-  const [totalDeposits, setTotalDeposits] = useState(null);
-  const [status, setStatus] = useState(null);
+export const VaultProvider = ({ children }: { children: React.ReactNode }) => {
+  const [balance, setBalance] = useState<any>(null);
+  const [totalDeposits, setTotalDeposits] = useState<any>(null);
+  const [status, setStatus] = useState<any>(null);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
+  const [error, setError] = useState<string | null>(null);
 
-  const fetchBalance = async (userAddress, tokenAddress) => {
+  const fetchBalance = async (userAddress: string, tokenAddress: string) => {
     setLoading(true);
     setError(null);
     try {
@@ -28,14 +43,14 @@ export const VaultProvider = ({ children }) => {
       } else {
         setError(result.error);
       }
-    } catch (err) {
+    } catch (err: any) {
       setError(err.message);
     } finally {
       setLoading(false);
     }
   };
 
-  const fetchTotalDeposits = async (tokenAddress) => {
+  const fetchTotalDeposits = async (tokenAddress: string) => {
     setLoading(true);
     setError(null);
     try {
@@ -45,7 +60,7 @@ export const VaultProvider = ({ children }) => {
       } else {
         setError(result.error);
       }
-    } catch (err) {
+    } catch (err: any) {
       setError(err.message);
     } finally {
       setLoading(false);
@@ -62,14 +77,14 @@ export const VaultProvider = ({ children }) => {
       } else {
         setError(result.error);
       }
-    } catch (err) {
+    } catch (err: any) {
       setError(err.message);
     } finally {
       setLoading(false);
     }
   };
 
-  const estimateDeposit = async (tokenAddress, amount) => {
+  const estimateDeposit = async (tokenAddress: string, amount: string) => {
     setLoading(true);
     setError(null);
     try {
@@ -80,7 +95,7 @@ export const VaultProvider = ({ children }) => {
         setError(result.error);
         return null;
       }
-    } catch (err) {
+    } catch (err: any) {
       setError(err.message);
       return null;
     } finally {
@@ -88,7 +103,7 @@ export const VaultProvider = ({ children }) => {
     }
   };
 
-  const estimateWithdraw = async (tokenAddress, amount) => {
+  const estimateWithdraw = async (tokenAddress: string, amount: string) => {
     setLoading(true);
     setError(null);
     try {
@@ -99,7 +114,7 @@ export const VaultProvider = ({ children }) => {
         setError(result.error);
         return null;
       }
-    } catch (err) {
+    } catch (err: any) {
       setError(err.message);
       return null;
     } finally {
