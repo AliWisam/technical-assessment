@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import { ethers } from 'ethers';
 import { useWallet } from '@/context/WalletContext';
 import { useVault } from '@/context/VaultContext';
 import styles from './page.module.css';
@@ -20,7 +21,10 @@ export default function VaultPage() {
     fetchStatus,
     estimateDeposit,
     estimateWithdraw,
+    deposit,
+    withdraw,
   } = useVault();
+
 
   const [tokenAddress, setTokenAddress] = useState('');
   const [amount, setAmount] = useState('');
@@ -32,7 +36,8 @@ export default function VaultPage() {
       return;
     }
     fetchStatus();
-  }, [isConnected, router, fetchStatus]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isConnected, router]);
 
   const handleFetchBalance = async () => {
     if (!address || !tokenAddress) {
@@ -64,17 +69,58 @@ export default function VaultPage() {
         result = await estimateWithdraw(tokenAddress, amount);
       }
 
-      if (result) {
-        alert(`Estimated gas: ${result.gasEstimate || 'N/A'}`);
+      if (result && result.gasEstimate) {
+        alert(`Estimated gas: ${result.gasEstimate}`);
+      } else {
+        // Show error message if estimation failed
+        // The error message is already set by estimateDeposit/estimateWithdraw functions
+        const errorMsg = error || (operation === 'deposit' 
+          ? 'Failed to estimate gas for deposit. Please ensure token is approved and you have sufficient balance.'
+          : 'Failed to estimate gas for withdraw. This might be because you don\'t have sufficient balance in the vault.');
+        alert(errorMsg);
       }
     } catch (error: any) {
-      alert(`Failed to estimate gas: ${error.message}`);
+      alert(`Failed to estimate gas: ${error.message || 'Unknown error'}`);
     }
   };
 
-  const handleExecuteTransaction = () => {
-    // TODO: Implement actual transaction execution
-    alert('Transaction execution needs to be implemented using wallet SDK');
+  const handleExecuteTransaction = async () => {
+    if (!tokenAddress || !amount) {
+      alert('Please enter token address and amount');
+      return;
+    }
+
+    try {
+      let result;
+      if (operation === 'deposit') {
+        result = await deposit(tokenAddress, amount);
+        if (result?.success) {
+          alert(`Deposit successful! Transaction hash: ${result.txHash}`);
+          setAmount(''); // Clear amount after successful transaction
+          // Refresh balance after a short delay to allow blockchain to update
+          setTimeout(async () => {
+            if (address) {
+              await fetchBalance(address, tokenAddress);
+            }
+          }, 3000);
+        }
+      } else {
+        result = await withdraw(tokenAddress, amount);
+        if (result?.success) {
+          alert(`Withdraw successful! Transaction hash: ${result.txHash}`);
+          setAmount(''); // Clear amount after successful transaction
+          // Refresh balance after a short delay to allow blockchain to update
+          setTimeout(async () => {
+            if (address) {
+              await fetchBalance(address, tokenAddress);
+            }
+          }, 3000);
+        }
+      }
+    } catch (error: any) {
+      // Error is already handled in VaultContext
+      console.error('Transaction failed:', error);
+    }
   };
 
   if (!isConnected) {
@@ -131,7 +177,7 @@ export default function VaultPage() {
           <div className={styles.infoSection}>
             <p className={styles.label}>Your Balance:</p>
             <p className={styles.value}>
-              {balance.balanceFormatted || balance.balance || '0'}
+              {balance.balanceFormatted || (balance.balance ? ethers.formatEther(balance.balance) : '0') || '0'}
             </p>
           </div>
         )}

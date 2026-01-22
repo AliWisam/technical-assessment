@@ -7,6 +7,12 @@
     "compile": "hardhat compile",
     "test": "hardhat test",
     "deploy": "hardhat run scripts/deploy.js",
+    "deploy:sepolia": "hardhat run scripts/deploy.js --network sepolia",
+    "deploy:token": "hardhat run scripts/deploy-token.js",
+    "deploy:token:sepolia": "hardhat run scripts/deploy-token.js --network sepolia",
+    "verify": "hardhat verify",
+    "verify:custom": "node scripts/verify-contract.js",
+    "verify-info": "node scripts/get-verification-info.js",
     "node": "hardhat node"
   },
   "keywords": [
@@ -19,6 +25,7 @@
   "license": "MIT",
   "devDependencies": {
     "@nomicfoundation/hardhat-toolbox": "^3.0.0",
+    "dotenv": "^17.2.3",
     "hardhat": "^2.19.0"
   },
   "dependencies": {

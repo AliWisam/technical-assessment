@@ -17,7 +17,10 @@ export const vaultService = {
       const response = await api.get(
         `/api/vault/balance/${userAddress}/${tokenAddress}`
       );
-      return { success: true, data: response.data };
+      // Backend returns {success: true, data: {...}}, so response.data is already the full response
+      // If response.data has a 'data' property, use that, otherwise use response.data directly
+      const resultData = response.data?.data || response.data;
+      return { success: true, data: resultData };
     } catch (error: any) {
       return {
         success: false,
@@ -30,7 +33,9 @@ export const vaultService = {
   getTotalDeposits: async (tokenAddress: string) => {
     try {
       const response = await api.get(`/api/vault/total/${tokenAddress}`);
-      return { success: true, data: response.data };
+      // Backend returns {success: true, data: {...}}, so extract the inner data
+      const resultData = response.data?.data || response.data;
+      return { success: true, data: resultData };
     } catch (error: any) {
       return {
         success: false,
@@ -43,7 +48,9 @@ export const vaultService = {
   getStatus: async () => {
     try {
       const response = await api.get('/api/vault/status');
-      return { success: true, data: response.data };
+      // Backend returns {success: true, data: {...}}, so extract the inner data
+      const resultData = response.data?.data || response.data;
+      return { success: true, data: resultData };
     } catch (error: any) {
       return {
         success: false,
@@ -59,7 +66,9 @@ export const vaultService = {
         tokenAddress,
         amount,
       });
-      return { success: true, data: response.data };
+      // Backend returns {success: true, data: {...}}, so extract the inner data
+      const resultData = response.data?.data || response.data;
+      return { success: true, data: resultData };
     } catch (error: any) {
       return {
         success: false,
@@ -75,7 +84,9 @@ export const vaultService = {
         tokenAddress,
         amount,
       });
-      return { success: true, data: response.data };
+      // Backend returns {success: true, data: {...}}, so extract the inner data
+      const resultData = response.data?.data || response.data;
+      return { success: true, data: resultData };
     } catch (error: any) {
       return {
         success: false,

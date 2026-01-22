@@ -34,7 +34,7 @@ class VaultService {
         };
       }
 
-      const balance = await this.contract.balanceOf(userAddress, tokenAddress);
+      const balance = await this.contract.getBalance(tokenAddress, userAddress);
       const balanceFormatted = ethers.formatEther(balance);
 
       return {
@@ -70,7 +70,7 @@ class VaultService {
         };
       }
 
-      const total = await this.contract.totalDeposits(tokenAddress);
+      const total = await this.contract.getTotalDeposits(tokenAddress);
       const totalFormatted = ethers.formatEther(total);
 
       return {
@@ -140,7 +140,7 @@ class VaultService {
       }
 
       const amountWei = ethers.parseEther(amount);
-      const gasEstimate = await this.contract.estimateGasDeposit(tokenAddress, amountWei);
+      const gasEstimate = await this.contract.deposit.estimateGas(tokenAddress, amountWei);
 
       return {
         success: true,
@@ -175,7 +175,7 @@ class VaultService {
       }
 
       const amountWei = ethers.parseEther(amount);
-      const gasEstimate = await this.contract.estimateGasWithdraw(tokenAddress, amountWei);
+      const gasEstimate = await this.contract.withdraw.estimateGas(tokenAddress, amountWei);
 
       return {
         success: true,
